@@ -1,4 +1,4 @@
-package com.bcs.testtodo.common;
+package com.bcs.todolist.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
