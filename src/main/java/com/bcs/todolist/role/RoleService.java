@@ -1,57 +1,66 @@
 package com.bcs.todolist.role;
 
 import com.bcs.todolist.common.FileProcessor;
+import com.bcs.todolist.role.dto.SaveOrUpdateRoleDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoleService {
     private final static String DATA_FILE_NAME = "role.json";
     private FileProcessor fileProcessor;
 
+    private final RoleRepository roleRepository;
+
     @Autowired
-    public RoleService(FileProcessor fileProcessor) {
-        this.fileProcessor = fileProcessor;
+    public RoleService(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
     }
 
     public List<Role> getAllRoles() {
-        return fileProcessor.readAsList(RoleService.DATA_FILE_NAME, Role[].class);
+        return roleRepository.findAll();
     }
 
     public Role getRoleById(Integer id) {
-        List<Role> roles = getAllRoles();
+        Optional<Role> role = roleRepository.findById(id);
 
-        for (Role role : roles) {
-            if (role.getId().equals(id)) {
-                return role;
-            }
+        if (role.isPresent()) {
+            return role.get();
         }
 
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
-    public void saveRole(Role role) {
-        List<Role> roles = getAllRoles();
+    public void saveRole(SaveOrUpdateRoleDto dto) {
+        Role role = new Role();
+        role.setName(dto.name());
 
-        roles.add(role);
+        try {
+            roleRepository.save(role);
+        } catch (DataIntegrityViolationException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+    }
 
-        fileProcessor.update(RoleService.DATA_FILE_NAME, roles);
+    public void updateRole(Integer id, SaveOrUpdateRoleDto dto) {
+        if (!roleRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        try {
+            roleRepository.update(id, dto.name());
+        } catch (DataIntegrityViolationException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 
     public void deleteRole(Integer id) {
-        List<Role> roles = getAllRoles();
-
-        for (Role role : roles) {
-            if (role.getId().equals(id)) {
-                roles.remove(role);
-                break;
-            }
-        }
-
-        fileProcessor.update(RoleService.DATA_FILE_NAME, roles);
+        roleRepository.deleteById(id);
     }
 }

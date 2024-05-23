@@ -1,5 +1,7 @@
 package com.bcs.todolist.role;
 
+import com.bcs.todolist.role.dto.SaveOrUpdateRoleDto;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +28,13 @@ public class RoleController {
     }
 
     @PostMapping
-    public void saveRole(@RequestBody Role role) {
+    public void saveRole(@Valid @RequestBody SaveOrUpdateRoleDto role) {
         roleService.saveRole(role);
+    }
+
+    @PutMapping("/{id}")
+    public void updateRole(@PathVariable("id") Integer id, @Valid @RequestBody SaveOrUpdateRoleDto role) {
+        roleService.updateRole(id, role);
     }
 
     @DeleteMapping("/{id}")
