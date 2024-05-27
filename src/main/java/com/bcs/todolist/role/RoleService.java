@@ -13,9 +13,6 @@ import java.util.Optional;
 
 @Service
 public class RoleService {
-    private final static String DATA_FILE_NAME = "role.json";
-    private FileProcessor fileProcessor;
-
     private final RoleRepository roleRepository;
 
     @Autowired
