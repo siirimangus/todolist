@@ -1,6 +1,6 @@
 package com.bcs.todolist.role;
 
-import com.bcs.todolist.common.FileProcessor;
+import com.bcs.todolist.role.dto.GetRoleDto;
 import com.bcs.todolist.role.dto.SaveOrUpdateRoleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,15 +20,21 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public List<Role> getAllRoles() {
-        return roleRepository.findAll();
+    public List<GetRoleDto> getAllRoles() {
+        List<Role> roles = roleRepository.findAll();
+
+        return roles.stream()
+                .map(role -> new GetRoleDto(role.getId(), role.getName()))
+                .toList();
     }
 
-    public Role getRoleById(Integer id) {
+    public GetRoleDto getRoleById(Integer id) {
         Optional<Role> role = roleRepository.findById(id);
 
         if (role.isPresent()) {
-            return role.get();
+            Role roleById = role.get();
+
+            return new GetRoleDto(roleById.getId(), roleById.getName());
         }
 
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
