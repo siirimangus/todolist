@@ -1,5 +1,8 @@
 package com.bcs.todolist.todoitem;
 
+import com.bcs.todolist.todoitem.dto.GetTodoItemDto;
+import com.bcs.todolist.todoitem.dto.SaveOrUpdateTodoItemDto;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/todoitem")
 public class TodoItemController {
-    private TodoItemService todoItemService;
+    private final TodoItemService todoItemService;
 
     @Autowired
     public TodoItemController(TodoItemService todoItemService) {
@@ -16,18 +19,26 @@ public class TodoItemController {
     }
 
     @GetMapping
-    public List<TodoItem> getAllTodoItems() {
+    public List<GetTodoItemDto> getAllTodoItems() {
         return todoItemService.getAllTodoItems();
     }
 
     @GetMapping("/{id}")
-    public TodoItem getTodoItemById(@PathVariable("id") Integer id) {
+    public GetTodoItemDto getTodoItemById(@PathVariable("id") Integer id) {
         return todoItemService.getTodoItemById(id);
     }
 
     @PostMapping
-    public void saveTodoItem(@RequestBody TodoItem todoItem) {
+    public void saveTodoItem(@Valid @RequestBody SaveOrUpdateTodoItemDto todoItem) {
         todoItemService.saveTodoItem(todoItem);
+    }
+
+    @PatchMapping("/{id}")
+    public void updateTodoItem(
+            @PathVariable("id") Integer id,
+            @RequestBody SaveOrUpdateTodoItemDto todoItemDto
+    ) {
+        todoItemService.updateTodoItem(todoItemDto, id);
     }
 
     @DeleteMapping("/{id}")

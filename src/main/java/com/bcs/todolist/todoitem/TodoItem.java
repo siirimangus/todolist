@@ -1,47 +1,28 @@
 package com.bcs.todolist.todoitem;
 
+import com.bcs.todolist.person.Person;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity(name = "todoitem")
 public class TodoItem {
+    @Column
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(nullable = false)
     private String item;
+
+    @Column(nullable = false)
     private Boolean completed;
-    private Integer personId;
 
-    public TodoItem(Integer id, String item, Boolean completed, Integer personId) {
-        this.id = id;
-        this.item = item;
-        this.completed = completed;
-        this.personId = personId;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getItem() {
-        return item;
-    }
-
-    public void setItem(String item) {
-        this.item = item;
-    }
-
-    public Boolean getCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(Boolean completed) {
-        this.completed = completed;
-    }
-
-    public Integer getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(Integer personId) {
-        this.personId = personId;
-    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "person_id", nullable = false)
+    private Person person;
 }
