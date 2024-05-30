@@ -2,12 +2,14 @@ package com.bcs.todolist.todoitem;
 
 import com.bcs.todolist.todoitem.dto.GetTodoItemDto;
 import com.bcs.todolist.todoitem.dto.SaveOrUpdateTodoItemDto;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/todoitem")
 public class TodoItemController {

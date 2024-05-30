@@ -2,12 +2,14 @@ package com.bcs.todolist.role;
 
 import com.bcs.todolist.role.dto.GetRoleDto;
 import com.bcs.todolist.role.dto.SaveOrUpdateRoleDto;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/role")
 public class RoleController {
