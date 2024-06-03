@@ -7,6 +7,7 @@ import com.bcs.todolist.role.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -17,11 +18,17 @@ import java.util.Optional;
 public class PersonService {
     private final PersonRepository personRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public PersonService(PersonRepository personRepository, RoleRepository roleRepository) {
+    public PersonService(
+            PersonRepository personRepository,
+            RoleRepository roleRepository,
+            PasswordEncoder passwordEncoder
+    ) {
         this.personRepository = personRepository;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<GetPersonDto> getAllPersons() {
@@ -95,5 +102,15 @@ public class PersonService {
 
     public void deletePerson(Integer id) {
         personRepository.deleteById(id);
+    }
+
+    public Optional<Person> getPersonByUsernameAndPassword(String username, String password) {
+        Optional<Person> person = personRepository.findByUsername(username);
+
+        if (person.isPresent() && passwordEncoder.matches(password, person.get().getPassword())) {
+            return person;
+        }
+
+        return Optional.empty();
     }
 }
