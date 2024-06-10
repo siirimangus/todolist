@@ -3,9 +3,21 @@
     <head>
         <meta charset="UTF-8">
         <title>HTML Exercises</title>
+        <style>
+            body {
+                background-color: LightGray;
+                font-family: sans-serif;
+            }
+
+            h1 {
+                color: green;
+            }
+        </style>
+        <link rel="stylesheet" href="styles.css">
+        <link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA0MP3AP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIiIiAAAAACIiIiIiAAACIiIiIiIgACIRESIRESAAIhESIiIRIgAiIgIiICIiACIiAiIgIiIAAiIiIiIiIgAAIiIiIiIiAAACIiAiIiIAAAIiICIiIAAAACIgIiIgAAAAIiICIgAAAAACIgAAAAAAAAAAAAAADwDwAAwAMAAIABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAwAAAAOAAAADwAQAA8AEAAPADAAD4fwAA" rel="icon" type="image/x-icon">
     </head>
     <body>
-        <h1>Exercise 1</h1>
+        <h1 class="title-ex1">Exercise 1</h1>
         <h1 style="color: SlateBlue">Basic HTML Animals</h1>
         <p style="font-size: 20px"> This is the first paragraph in our page. It introduces our animals.</p>
         <h2 style="color: SlateBlue">The Llama</h2>
@@ -27,7 +39,7 @@
         </h1>
         <h1>Looking at lists</h1>
         <p>Turn the following list of my favorite vegetables into an unordered list.</p>
-        <ul style="border: 2px solid green; border-radius: 8px">
+        <ul style="border: 2px solid green; border-radius: 8px; padding: 30px">
             <li>Cucumber</li>
             <li>Broccoli</li>
             <li>Asparagus</li>
@@ -45,7 +57,7 @@
 
         <h1>Exercise 3</h1>
         <h1 style="color: SlateBlue">Emphasis and importance</h1>
-        <p>
+        <p id="my-hobbies">
             There are <strong style="color: SlateBlue">two</strong> things I care about —
             <strong style="color: SlateBlue">music</strong> and  <strong style="color: SlateBlue">friends</strong>.
             Someday I <em>might</em> be able to get my friends interested in each other, and my music!
@@ -53,6 +65,16 @@
 
         <hr />
 
-        <img src="https://static.printler.com/cache/8/e/1/a/0/c/8e1a0c16bf0c2cfa3bc131c209051cf5b64a2c46.jpg" alt="A nice sweet cat">
+        <img src="https://static.printler.com/cache/8/e/1/a/0/c/8e1a0c16bf0c2cfa3bc131c209051cf5b64a2c46.jpg" alt="A nice sweet cat" height="100px">
+
+        <br>
+
+        <button onClick="showAlert()">Click me!</button>
+
+        <script>
+            function showAlert() {
+                alert("Hello world!");
+            }
+        </script>
     </body>
 </html>
