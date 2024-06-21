@@ -54,7 +54,10 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/todolist-login").permitAll()
                         .anyRequest().authenticated()
                 )
-                .logout((l) -> l.clearAuthentication(true));
+                .logout((logout) -> logout
+                        .clearAuthentication(true)
+                        .deleteCookies("token")
+                );
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
